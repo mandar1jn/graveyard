@@ -33,6 +33,8 @@ namespace AWExtractor.Files.BinFile
             switch(version)
             {
                 case 9:
+                    ReadHeaderV9(br);
+                    break;
                 case 8:
                     ReadHeaderV8(br);
                     break;
@@ -57,6 +59,29 @@ namespace AWExtractor.Files.BinFile
             string pathPrefix = br.ReadNullTerminatedString();
 
             unknown = br.ReadBytes(120);
+
+            for (int i = 0; i < folderEntries.Capacity; i++)
+            {
+                folderEntries.Add(new BinFolderEntry(br, nameSize));
+            }
+
+            for (int i = 0; i < fileEntries.Capacity; i++)
+            {
+                fileEntries.Add(new BinFileEntry(br, nameSize));
+            }
+        }
+
+        void ReadHeaderV9(BinaryReader br)
+        {
+            folderEntries = new List<BinFolderEntry>((int)br.ReadUInt32());
+            fileEntries = new List<BinFileEntry>((int)br.ReadUInt32());
+
+            unknown1 = br.ReadUInt64();
+
+            // total size of name storage
+            uint nameSize = br.ReadUInt32();
+
+            unknown = br.ReadBytes(128);
 
             for (int i = 0; i < folderEntries.Capacity; i++)
             {

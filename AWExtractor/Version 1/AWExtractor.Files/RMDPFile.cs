@@ -19,12 +19,12 @@ namespace AWExtractor.Files
 
             binFile = new(binPath);
 
-            /*BinaryReader br = new(File.Open(path, FileMode.Open));
+            BinaryReader br = new(File.Open(path, FileMode.Open));
 
             var pathElements = path.Split('\\').Take(path.Split('\\').Length - 1);
             string basePath = string.Join("\\", pathElements);
 
-            foreach(BinFileEntry file in binFile.fileEntries)
+            foreach (BinFileEntry file in binFile.fileEntries)
             {
 
                 string filePath = file.name;
@@ -32,15 +32,20 @@ namespace AWExtractor.Files
                 string folderPath = "";
 
                 long prevFolder = file.prevFolder;
-                while (prevFolder > 1)
+                while (prevFolder != -1)
                 {
                     folderPath = $"{binFile.folderEntries[(int)prevFolder].name}\\" + folderPath;
                     prevFolder = binFile.folderEntries[(int)prevFolder].prevFolder;
                 }
 
+                if(folderPath.StartsWith("\\"))
+                {
+                    folderPath = folderPath.Remove(0, 1);
+                }
+
                 folderPath = Path.Combine(basePath, folderPath);
 
-                if(!Directory.Exists(folderPath))
+                if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
                 }
@@ -61,7 +66,7 @@ namespace AWExtractor.Files
                 bw.Write(data);
                 bw.Close();
                 bw.Dispose();
-            }*/
+            }
         }
 
     }

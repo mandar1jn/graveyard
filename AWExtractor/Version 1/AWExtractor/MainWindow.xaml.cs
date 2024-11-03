@@ -27,6 +27,9 @@ namespace AWExtractor
 
         private void OpenFolder_Click(object sender, RoutedEventArgs e)
         {
+
+            new RMDPFile("D:\\SteamLibrary\\steamapps\\common\\Control\\data_packfiles\\ep100-000-generic.rmdp");
+
             OpenFolderDialog dialog = new()
             {
                 Multiselect = false,
